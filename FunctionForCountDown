@@ -1,0 +1,31 @@
+private fun countDownStart() {
+        runnable = object : Runnable {
+            override fun run() {
+                try {
+                    handler.postDelayed(this, 1000)
+                    val dateFormat = SimpleDateFormat(DATE_FORMAT)
+                    val event_date: Date = dateFormat.parse(EVENT_DATE_TIME)
+                    val current_date = Date()
+                    if (!current_date.after(event_date)) {
+                        val diff: Long = event_date.time - current_date.time
+                        val Days = diff / (24 * 60 * 60 * 1000)
+                        val Hours = diff / (60 * 60 * 1000) % 24
+                        val Minutes = diff / (60 * 1000) % 60
+                        val Seconds = diff / 1000 % 60
+                        //
+                        binding.tvDays.text = String.format("%02d", Days)
+                        binding.tvHour.text = String.format("%02d", Hours)
+                        binding.tvMinute.text = String.format("%02d", Minutes)
+                        binding.tvSecond.text = String.format("%02d", Seconds)
+                    } else {
+                        binding.linearLayout1.visibility = View.VISIBLE
+                        binding.linearLayout2.visibility = View.GONE
+                        handler.removeCallbacks(runnable!!)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+        handler.postDelayed(runnable as Runnable, 0)
+    }
