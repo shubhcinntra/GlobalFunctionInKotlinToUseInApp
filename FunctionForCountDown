@@ -1,3 +1,10 @@
+//global variables
+private val EVENT_DATE_TIME = "2022-1-16 12:03:00"
+    private val DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
+
+    private val handler: Handler = Handler()
+    private var runnable: Runnable? = null
+
 private fun countDownStart() {
         runnable = object : Runnable {
             override fun run() {
