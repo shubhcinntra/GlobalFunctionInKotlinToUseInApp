@@ -1,0 +1,62 @@
+private fun getLongToAgo(createdAt: Long): String? {
+        val userDateFormat: DateFormat = SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy")
+        val dateFormatNeeded: DateFormat = SimpleDateFormat("dd/MM/yyyy HH:MM:SS")
+        var date: Date? = null
+        date = Date(createdAt)
+        var crdate1 = dateFormatNeeded.format(date)
+
+        // Date Calculation
+        val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+        crdate1 = SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(date)
+       var crdate2 = SimpleDateFormat("dd/MM/yyyy ").format(date)
+
+        // get current date time with Calendar()
+        val cal = Calendar.getInstance()
+        val currenttime = dateFormat.format(cal.time)
+        var CreatedAt: Date? = null
+        var current: Date? = null
+        try {
+            CreatedAt = dateFormat.parse(crdate1)
+            current = dateFormat.parse(currenttime)
+        } catch (e: ParseException) {
+
+            e.printStackTrace()
+        }
+
+        // Get msec from each, and subtract.
+        val diff = current!!.time - CreatedAt!!.time
+        val diffSeconds = diff / 1000
+        val diffMinutes = diff / (60 * 1000) % 60
+        val diffHours = diff / (60 * 60 * 1000) % 24
+        val diffDays = diff / (24 * 60 * 60 * 1000)
+        var time: String? = null
+        if (diffDays > 0) {
+            time = if (diffDays == 1L) {
+                "$diffDays day ago "
+            } else {
+                crdate2
+
+            }
+        } else {
+            if (diffHours > 0) {
+                time = if (diffHours == 1L) {
+                    "$diffHours hr ago"
+                } else {
+                    "$diffHours hrs ago"
+                }
+            } else {
+                if (diffMinutes > 0) {
+                    time = if (diffMinutes == 1L) {
+                        "$diffMinutes min ago"
+                    } else {
+                        "$diffMinutes mins ago"
+                    }
+                } else {
+                    if (diffSeconds > 0) {
+                        time = "$diffSeconds secs ago"
+                    }
+                }
+            }
+        }
+        return time
+    }
