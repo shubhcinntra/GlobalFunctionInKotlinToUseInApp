@@ -1,0 +1,32 @@
+ 
+
+
+/**
+ * resultLauncher
+ * 
+ * **/
+
+   var resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    // There are no request codes
+                    val data: Intent? = result.data
+                    data?.let {
+                        binding.appBarNavigation.ibGoToNavWallet.setImageURI(it.data)
+                    }
+
+
+                }
+            }
+
+/**
+ * setup Intent with view
+ * **/
+ binding.chooseImage.setOnClickListener {
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.apply {
+                type = "image/*"
+            }
+            resultLauncher.launch(intent)
+
+        }
